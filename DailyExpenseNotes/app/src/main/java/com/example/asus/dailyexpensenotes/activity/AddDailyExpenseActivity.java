@@ -27,8 +27,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.asus.dailyexpensenote.database.MyDBHelper;
-
+import com.example.asus.dailyexpensenotes.database.MyDBHelper;
+import com.example.asus.dailyexpensenotes.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
     private EditText amountET,dateET,timeET;
     private Button addDocumentBtn,addExpenseBtn;
-    private ImageView dateIV,timeIV,documentIV,documentCancelIV;
+    private ImageView documentIV,documentCancelIV;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
@@ -66,7 +66,7 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
         getTime();
 
-
+        getUpdateIntent();
 
 
         documentCancelIV.setOnClickListener(new View.OnClickListener() {
@@ -117,8 +117,24 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
                     if(!validate()){
                         return;
+                    }else {
+                        long resultId = myDBHelper.updateDataToDatabase(idIntent,expenseType,expenseAmount,expenseDate,expenseTime,bitmapToString(bitmapImage));
+
+                        if(resultId > 0){
+                            Toast.makeText(AddDailyExpenseActivity.this, "Row "+resultId+" Updated Successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }else {
+                            Toast.makeText(AddDailyExpenseActivity.this, "Data are not Updated", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
+                }else {
+                    if(!validate()){
+                        return;
+                    }else {
+
+                        insertData();
+                    }
                 }
             }
         });
@@ -173,6 +189,30 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
         }
     }
 
+    private void getUpdateIntent() {
+
+        idIntent = getIntent().getStringExtra("EXPENSE_ID");
+        Bitmap bitmapImageIntent = stringToBitmap(getIntent().getStringExtra("EXPENSE_IMAGE"));
+
+        if(idIntent != null){
+
+            int spinnerItemPosition = arrayAdapter.getPosition(getIntent().getStringExtra("EXPENSE_TYPE"));
+            spinner.setSelection(spinnerItemPosition);
+            amountET.setText(getIntent().getStringExtra("EXPENSE_AMOUNT"));
+            dateET.setText(getIntent().getStringExtra("EXPENSE_DATE"));
+            timeET.setText(getIntent().getStringExtra("EXPENSE_TIME"));
+
+            if(bitmapImageIntent != null){
+                bitmapImage = bitmapImageIntent;
+                documentIV.setImageBitmap(bitmapImage);
+                documentCancelIV.setVisibility(View.VISIBLE);
+            }else {
+                documentIV.setImageResource(R.drawable.ic_assignment_black_24dp);
+            }
+            setTitle("Update "+getIntent().getStringExtra("EXPENSE_TYPE"));
+            addExpenseBtn.setText("Update Expense");
+        }
+    }
 
 
     private boolean validate() {
@@ -183,25 +223,39 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
             Toast.makeText(this, "Please Select Expense Type !", Toast.LENGTH_SHORT).show();
             valid = false;
         }
-        if(expenseAmount.isEmpty()){
-            amountET.setError("Enter Amount");
+
+        if(expenseAmount.isEmpty() ){
+            amountET.setError("Please Enter Amount");
             valid = false;
-        }else {
+        }else if (expenseAmount.charAt(0)=='.' || expenseAmount.equals("0") ){
+            amountET.setError("Please Enter Valid Amount");
+            valid = false;
+        }
+        else {
             amountET.setError(null);
         }
+
         if(expenseDate.isEmpty()){
-            dateET.setError("Select Date");
+            dateET.setError("Please Select Date");
             valid = false;
         }else {
             dateET.setError(null);
         }
 
+        if(expenseTime.isEmpty()){
+            timeET.setError("Please Select Date");
+            valid = false;
+        }else {
+            timeET.setError(null);
+        }
+
         return valid;
     }
 
+
     private void getTime() {
 
-        timeIV.setOnClickListener(new View.OnClickListener() {
+        timeET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -233,7 +287,7 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
     private void getDate() {
 
-        dateIV.setOnClickListener(new View.OnClickListener() {
+        dateET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -313,8 +367,6 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
         dateET = findViewById(R.id.expenseDateETId);
         timeET = findViewById(R.id.expenseTimeETId);
 
-        dateIV = findViewById(R.id.dateIVId);
-        timeIV = findViewById(R.id.timeIVId);
         documentIV = findViewById(R.id.documentIVId);
         documentCancelIV = findViewById(R.id.cancelIVId);
 
