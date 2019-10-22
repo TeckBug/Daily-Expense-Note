@@ -1,16 +1,20 @@
 package com.example.asus.dailyexpensenotes.activity;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+
+import com.example.asus.dailyexpensenotes.fragment.DashBoardFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import com.example.asus.dailyexpensenotes.R;
 import com.example.asus.dailyexpensenotes.fragment.ExpensesFragment;
 
 public class MainActivity extends AppCompatActivity {
+    private int mark=0;
+    private int mark1=1;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -22,17 +26,29 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
+
+
+        replaceFragment(new DashBoardFragment());
+
         //navigation item selected action
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 switch (menuItem.getItemId()){
                     case R.id.dashBoardNavItemId:
+                        if(mark1==0 && mark==0) {
+                            replaceFragment(new DashBoardFragment());
+                            mark1++;
+                        }
                         return true;
                     case R.id.expensesNavItemId:
-                        replaceFragment(new ExpensesFragment());
-                        setTitle("Expenses");
+
+                        if(mark1==1 && mark==0) {
+                            mark1--;
+                            replaceFragment(new ExpensesFragment());
+                        }
                         return true;
                 }
                 return false;
