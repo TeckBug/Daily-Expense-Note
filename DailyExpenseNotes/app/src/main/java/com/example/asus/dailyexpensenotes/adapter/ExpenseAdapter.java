@@ -53,8 +53,35 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         viewHolder.expenseDateTV.setText(expense.getExpenseDate());
         viewHolder.expenseAmountTV.setText(expense.getExpenseAmount());
 
-    }
+        //recycler view item click event to show details
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                View view = LayoutInflater.from(context).inflate(R.layout.fragment_bottom_sheet, null);
+                expenseType = view.findViewById(R.id.expenseTypeTVId);
+                expenseAmount = view.findViewById(R.id.expenseAmountTVId);
+                expenseDate = view.findViewById(R.id.expenseDateTVId);
+                expenseTime = view.findViewById(R.id.expenseTimeTVId);
+                showDocumentBtn = view.findViewById(R.id.showDocumentBtnId);
+
+                expenseType.setText(expense.getExpenseType());
+                expenseAmount.setText(expense.getExpenseAmount()+" BDT");
+                expenseDate.setText(expense.getExpenseDate());
+
+                //time empty checking
+                if(expense.getExpenseTime() == null || expense.getExpenseTime().isEmpty()){
+                    expenseTime.setText("No Time Added");
+                }else {
+                    expenseTime.setText(expense.getExpenseTime());
+                }
+
+                BottomSheetDialog dialog = new BottomSheetDialog(context);
+                dialog.setContentView(view);
+                dialog.show();
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {
