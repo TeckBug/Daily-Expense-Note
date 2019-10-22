@@ -52,7 +52,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         viewHolder.expenseTypeTV.setText(expense.getExpenseType());
         viewHolder.expenseDateTV.setText(expense.getExpenseDate());
         viewHolder.expenseAmountTV.setText(expense.getExpenseAmount());
-        
+
     }
 
 
