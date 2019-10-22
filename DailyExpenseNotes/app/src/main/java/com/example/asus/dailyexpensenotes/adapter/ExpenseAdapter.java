@@ -20,8 +20,60 @@ import com.example.asus.dailyexpensenotes.model_class.Expense;
 
 import java.util.List;
 
-public class ExpenseAdapter  {
+public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHolder> {
+
+    private List<Expense> expenseList;
+    private Context context;
+    private TextView expenseType,expenseAmount,expenseDate,expenseTime;
+    private Button showDocumentBtn;
+
+    public ExpenseAdapter() {
+
+    }
+
+    public ExpenseAdapter(List<Expense> expenseList, Context context) {
+        this.expenseList = expenseList;
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_item_design,viewGroup,false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
+
+        final Expense expense = expenseList.get(position);
+
+        viewHolder.expenseTypeTV.setText(expense.getExpenseType());
+        viewHolder.expenseDateTV.setText(expense.getExpenseDate());
+        viewHolder.expenseAmountTV.setText(expense.getExpenseAmount());
+        
+    }
 
 
+    @Override
+    public int getItemCount() {
+        return expenseList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView expenseTypeTV,expenseDateTV,expenseAmountTV;
+        private ImageView moreIV;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            expenseTypeTV = itemView.findViewById(R.id.expenseTypeTVId);
+            expenseDateTV = itemView.findViewById(R.id.expenseDateTVId);
+            expenseAmountTV = itemView.findViewById(R.id.expenseAmountTVId);
+            moreIV = itemView.findViewById(R.id.moreIVId);
+        }
+    }
 }
 
