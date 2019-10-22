@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+        //getImage();
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -29,4 +30,11 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         bottomNavigationView = findViewById(R.id.bottomNavigationViewId);
     }
-}
+
+    //glade image view
+//    private void getImage() {
+//        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+//    }
+
+
+    }

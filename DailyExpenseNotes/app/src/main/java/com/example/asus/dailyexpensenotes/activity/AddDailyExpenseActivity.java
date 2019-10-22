@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,6 +40,7 @@ import java.util.Calendar;
 public class AddDailyExpenseActivity extends AppCompatActivity {
 
     private MyDBHelper myDBHelper;
+    private Context mContext;
 
     private Spinner spinner;
     private String[] spinnerList;
@@ -163,6 +165,8 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         startActivityForResult(intent,99);
+
+
     }
 
     private void openCamera() {
@@ -185,6 +189,14 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
                 //Uri uri = data.getData();
                 // bitmapImage = (Bitmap) Uri.parse(uri);
                 // documentIV.setImageBitmap(bitmapImage);
+
+
+//                Glide.with(mContext)
+//                        .asBitmap()
+//                        .load(mImage.get(position))
+//                        .apply(requestOptions)
+//                        .into(holder.imageView);
+
             }
         }
     }
