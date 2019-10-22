@@ -83,4 +83,11 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.rawQuery(sql,null);
     }
 
+
+    public int deleteDataFromDatabase(int rowId) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        int deleteId = sqLiteDatabase.delete(TABLE_NAME, ID + "=" + rowId, null);
+        return deleteId;
+    }
+
 }
