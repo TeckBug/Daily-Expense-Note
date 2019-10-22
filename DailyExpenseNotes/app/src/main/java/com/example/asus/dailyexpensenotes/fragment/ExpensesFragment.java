@@ -73,6 +73,46 @@ public class ExpensesFragment extends Fragment {
 
         populateDataToRecyclerView();
 
+        //show expenses based on spinner selected item
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    getData();
+                    populateDataToRecyclerView();
+                }else if(position == 1){
+                    Cursor cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Electricity Bill'");
+                    setData(cursor);
+                }
+                else if(position == 2){
+                    Cursor cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Transport Cost'");
+                    setData(cursor);
+                }
+                else if(position == 3){
+                    Cursor cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Medical Cost'");
+                    setData(cursor);
+                }
+                else if(position == 4){
+                    Cursor cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Lunch'");
+                    setData(cursor);
+                }
+                else if(position == 5){
+                    Cursor cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Dinner'");
+                    setData(cursor);
+                }
+                else if(position == 6){
+                    Cursor cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Others'");
+                    setData(cursor);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         //floating action button actions here to add new expense
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,7 +261,7 @@ public class ExpensesFragment extends Fragment {
                     month = month + 1;
                     String toDate = dayOfMonth + "/" + month + "/" + year;
                     toDateTV.setText(toDate);
-
+                   
                 }
             };
     }
