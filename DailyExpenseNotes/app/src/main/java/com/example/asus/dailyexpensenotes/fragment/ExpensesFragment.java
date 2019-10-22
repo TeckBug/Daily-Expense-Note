@@ -261,12 +261,53 @@ public class ExpensesFragment extends Fragment {
                     month = month + 1;
                     String toDate = dayOfMonth + "/" + month + "/" + year;
                     toDateTV.setText(toDate);
-                   
+                    setDataAccordingToDate(toDate);
                 }
             };
     }
 
+    private void setDataAccordingToDate(String toDate) {
 
+        String selectedItem = spinner.getSelectedItem().toString();
+        Cursor cursor;
+
+        switch (selectedItem){
+            case "Select Expense Type":
+                cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_date BETWEEN '"+fromDate+"' AND '"+toDate+"' ");
+                setData(cursor);
+                break;
+
+            case "Electricity Bill":
+                cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Electricity Bill' AND expense_date BETWEEN '"+fromDate+"' AND '"+toDate+"' ");
+                setData(cursor);
+                break;
+
+            case "Transport Cost":
+                cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Transport Cost' AND expense_date BETWEEN '"+fromDate+"' AND '"+toDate+"' ");
+                setData(cursor);
+                break;
+
+            case "Medical Cost":
+                cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Medical Cost' AND expense_date BETWEEN '"+fromDate+"' AND '"+toDate+"' ");
+                setData(cursor);
+                break;
+
+            case "Lunch":
+                cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Lunch' AND expense_date BETWEEN '"+fromDate+"' AND '"+toDate+"' ");
+                setData(cursor);
+                break;
+
+            case "Dinner":
+                cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Dinner' AND expense_date BETWEEN '"+fromDate+"' AND '"+toDate+"' ");
+                setData(cursor);
+                break;
+
+            case "Others":
+                cursor = myDBHelper.getData("SELECT * FROM expense WHERE expense_type = 'Others' AND expense_date BETWEEN '"+fromDate+"' AND '"+toDate+"' ");
+                setData(cursor);
+                break;
+        }
+    }
 
     //initialize all components
     private void init(View view) {
