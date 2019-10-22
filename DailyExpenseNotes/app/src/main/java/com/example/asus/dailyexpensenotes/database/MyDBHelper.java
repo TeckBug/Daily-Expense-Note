@@ -38,9 +38,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL(CREATE_TABLE);
-            Toast.makeText(context, "onCreate is Called", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
-            Toast.makeText(context, "Exception: "+e, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 
@@ -48,13 +47,11 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
             db.execSQL(DROP_TABLE);
-            Toast.makeText(context, "onUpgrade is Called", Toast.LENGTH_SHORT).show();
             onCreate(db);
         }catch (Exception e){
-            Toast.makeText(context, "Exception: "+e, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
-
 
     public long insertDataToDatabase(String expenseType,String expenseAmount,String expenseDate,String expenseTime,String stringImage){
 
@@ -72,7 +69,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return rowId;
     }
 
-
     public Cursor getDataFromDatabase(){
 
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -81,36 +77,10 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public int deleteDataFromDatabase(int rowId) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        int deleteId = sqLiteDatabase.delete(TABLE_NAME, ID + "=" + rowId, null);
-        return deleteId;
-    }
-
-
     public Cursor getData(String sql) {
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         return sqLiteDatabase.rawQuery(sql,null);
     }
-
-
-    public long updateDataToDatabase(String id,String expenseType, String expenseAmount,String expenseDate,String expenseTime,String stringImage){
-
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put(EXPENSE_TYPE,expenseType);
-        contentValues.put(EXPENSE_AMOUNT,expenseAmount);
-        contentValues.put(EXPENSE_DATE,expenseDate);
-        contentValues.put(EXPENSE_TIME,expenseTime);
-        contentValues.put(EXPENSE_IMAGE,stringImage);
-
-        long rowId = sqLiteDatabase.update(TABLE_NAME,contentValues,"id = ?",new String[]{id});
-
-        return rowId;
-    }
-
-
 
 }

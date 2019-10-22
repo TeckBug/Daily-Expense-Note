@@ -117,18 +117,7 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
                 if(idIntent != null){
 
-                    if(!validate()){
-                        return;
-                    }else {
-                        long resultId = myDBHelper.updateDataToDatabase(idIntent,expenseType,expenseAmount,expenseDate,expenseTime,bitmapToString(bitmapImage));
-
-                        if(resultId > 0){
-                            Toast.makeText(AddDailyExpenseActivity.this, "Row "+resultId+" Updated Successfully", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }else {
-                            Toast.makeText(AddDailyExpenseActivity.this, "Data are not Updated", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                    //update
 
                 }else {
                     if(!validate()){
