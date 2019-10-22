@@ -76,12 +76,43 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
                     expenseTime.setText(expense.getExpenseTime());
                 }
 
+                showDocumentBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Dialog builder = new Dialog(context);
+                        View  view = LayoutInflater.from(context).inflate(R.layout.image_view_layout_design,null);
+                        builder.setTitle("Document of "+expense.getExpenseType());
+                        builder.setContentView(view);
+
+                        ImageView imageView = view.findViewById(R.id.imageViewLayoutDesignId);
+                        //image empty checking
+                        if(expense.getExpenseImage() == null || expense.getExpenseImage().isEmpty()){
+                            imageView.setImageResource(R.drawable.ic_assignment_black_24dp);
+                        }else {
+                            imageView.setImageBitmap(stringToBitmap(expense.getExpenseImage()));
+                        }
+                        builder.show();
+                    }
+                });
+
                 BottomSheetDialog dialog = new BottomSheetDialog(context);
                 dialog.setContentView(view);
                 dialog.show();
             }
         });
     }
+
+    private Bitmap stringToBitmap(String encodedString){
+        try {
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 
     @Override
     public int getItemCount() {
