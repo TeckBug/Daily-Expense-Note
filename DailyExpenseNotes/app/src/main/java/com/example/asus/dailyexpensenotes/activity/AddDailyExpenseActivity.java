@@ -12,8 +12,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.MediaStore;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -43,14 +45,14 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
     private String[] spinnerList;
     private ArrayAdapter<String> arrayAdapter;
 
-    private EditText amountET,dateET,timeET;
-    private Button addDocumentBtn,addExpenseBtn;
-    private ImageView documentIV,documentCancelIV;
+    private EditText amountET, dateET, timeET;
+    private Button addDocumentBtn, addExpenseBtn;
+    private ImageView documentIV, documentCancelIV;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
 
-    private String expenseType,expenseAmount,expenseDate,expenseTime;
+    private String expenseType, expenseAmount, expenseDate, expenseTime;
     private String idIntent;
     private Bitmap bitmapImage = null;
 
@@ -67,7 +69,6 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
         getUpdateIntent();
 
-
         documentCancelIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,17 +79,16 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
             }
         });
 
-
         addDocumentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddDailyExpenseActivity.this);
-                String[] items = {"From Camera","From Gallery"};
+                String[] items = {"From Camera", "From Gallery"};
                 builder.setTitle("Choose an action");
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
+                        switch (which) {
                             case 0:
                                 openCamera();
                                 break;
@@ -104,7 +104,6 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
             }
         });
 
-
         addExpenseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,14 +111,14 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
                 getDataFromUser();
 
-                if(idIntent != null){
+                if (idIntent != null) {
 
                     //update
 
-                }else {
-                    if(!validate()){
+                } else {
+                    if (!validate()) {
                         return;
-                    }else {
+                    } else {
 
                         insertData();
                     }
@@ -128,50 +127,47 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
         });
     }
 
-    private String bitmapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String stringImage=Base64.encodeToString(b, Base64.DEFAULT);
+    private String bitmapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String stringImage = Base64.encodeToString(b, Base64.DEFAULT);
         return stringImage;
     }
 
-    private Bitmap stringToBitmap(String encodedString){
+    private Bitmap stringToBitmap(String encodedString) {
         try {
-            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
     }
 
     private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
-        startActivityForResult(intent,99);
-
-
+        startActivityForResult(intent, 99);
     }
 
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,88);
+        startActivityForResult(intent, 88);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
-            if(requestCode == 88){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 88) {
                 Bundle bundle = data.getExtras();
                 bitmapImage = (Bitmap) bundle.get("data");
                 documentIV.setImageBitmap(bitmapImage);
                 documentCancelIV.setVisibility(View.VISIBLE);
-            }
-            else if(requestCode == 99){
+            } else if (requestCode == 99) {
                 //Uri uri = data.getData();
                 // bitmapImage = (Bitmap) Uri.parse(uri);
                 // documentIV.setImageBitmap(bitmapImage);
@@ -192,7 +188,7 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
         idIntent = getIntent().getStringExtra("EXPENSE_ID");
         Bitmap bitmapImageIntent = stringToBitmap(getIntent().getStringExtra("EXPENSE_IMAGE"));
 
-        if(idIntent != null){
+        if (idIntent != null) {
 
             int spinnerItemPosition = arrayAdapter.getPosition(getIntent().getStringExtra("EXPENSE_TYPE"));
             spinner.setSelection(spinnerItemPosition);
@@ -200,14 +196,14 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
             dateET.setText(getIntent().getStringExtra("EXPENSE_DATE"));
             timeET.setText(getIntent().getStringExtra("EXPENSE_TIME"));
 
-            if(bitmapImageIntent != null){
+            if (bitmapImageIntent != null) {
                 bitmapImage = bitmapImageIntent;
                 documentIV.setImageBitmap(bitmapImage);
                 documentCancelIV.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 documentIV.setImageResource(R.drawable.ic_assignment_black_24dp);
             }
-            setTitle("Update "+getIntent().getStringExtra("EXPENSE_TYPE"));
+            setTitle("Update " + getIntent().getStringExtra("EXPENSE_TYPE"));
             addExpenseBtn.setText("Update Expense");
         }
     }
@@ -217,33 +213,32 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
         boolean valid = true;
 
-        if(expenseType.equals("Select Expense Type")){
+        if (expenseType.equals("Select Expense Type")) {
             Toast.makeText(this, "Please Select Expense Type !", Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
-        if(expenseAmount.isEmpty() ){
+        if (expenseAmount.isEmpty()) {
             amountET.setError("Please Enter Amount");
             valid = false;
-        }else if (expenseAmount.charAt(0)=='.' || expenseAmount.equals("0") ){
+        } else if (expenseAmount.charAt(0) == '.' || expenseAmount.equals("0")) {
             amountET.setError("Please Enter Valid Amount");
             valid = false;
-        }
-        else {
+        } else {
             amountET.setError(null);
         }
 
-        if(expenseDate.isEmpty()){
+        if (expenseDate.isEmpty()) {
             dateET.setError("Please Select Date");
             valid = false;
-        }else {
+        } else {
             dateET.setError(null);
         }
 
-        if(expenseTime.isEmpty()){
+        if (expenseTime.isEmpty()) {
             timeET.setError("Please Select Date");
             valid = false;
-        }else {
+        } else {
             timeET.setError(null);
         }
 
@@ -275,7 +270,7 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
         mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                Time time = new Time(hourOfDay,minute,00);
+                Time time = new Time(hourOfDay, minute, 00);
                 SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm:ss aa");
                 timeET.setText(timeFormatter.format(time).toString());
             }
@@ -318,30 +313,29 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
     private void insertData() {
 
-        if(bitmapImage != null){
-            long resultId = myDBHelper.insertDataToDatabase(expenseType,expenseAmount,expenseDate,expenseTime,bitmapToString(bitmapImage));
+        if (bitmapImage != null) {
+            long resultId = myDBHelper.insertDataToDatabase(expenseType, expenseAmount, expenseDate, expenseTime, bitmapToString(bitmapImage));
 
-            if(resultId > 0){
+            if (resultId > 0) {
                 setResult(RESULT_OK);
-                Toast.makeText(AddDailyExpenseActivity.this, "Row "+resultId+" inserted Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddDailyExpenseActivity.this, "Row " + resultId + " inserted Successfully", Toast.LENGTH_SHORT).show();
                 finish();
-            }else {
+            } else {
                 Toast.makeText(AddDailyExpenseActivity.this, "Data are not inserted", Toast.LENGTH_SHORT).show();
             }
-        }else {
-            long resultId = myDBHelper.insertDataToDatabase(expenseType,expenseAmount,expenseDate,expenseTime,null);
+        } else {
+            long resultId = myDBHelper.insertDataToDatabase(expenseType, expenseAmount, expenseDate, expenseTime, null);
 
-            if(resultId > 0){
+            if (resultId > 0) {
                 setResult(RESULT_OK);
-                Toast.makeText(AddDailyExpenseActivity.this, "Row "+resultId+" inserted Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddDailyExpenseActivity.this, "Row " + resultId + " inserted Successfully", Toast.LENGTH_SHORT).show();
                 finish();
-            }else {
+            } else {
                 Toast.makeText(AddDailyExpenseActivity.this, "Data are not inserted", Toast.LENGTH_SHORT).show();
             }
         }
 
     }
-
 
     private void getDataFromUser() {
         expenseType = spinner.getSelectedItem().toString();
@@ -351,14 +345,13 @@ public class AddDailyExpenseActivity extends AppCompatActivity {
 
     }
 
-
     private void init() {
 
         myDBHelper = new MyDBHelper(AddDailyExpenseActivity.this);
 
         spinner = findViewById(R.id.selectExpenseTypeSpinnerId);
         spinnerList = getResources().getStringArray(R.array.spinner_list);
-        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,spinnerList);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, spinnerList);
         spinner.setAdapter(arrayAdapter);
 
         amountET = findViewById(R.id.expenseAmountETId);

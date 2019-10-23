@@ -64,7 +64,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         viewHolder.expenseDateTV.setText(expense.getExpenseDate());
         viewHolder.expenseAmountTV.setText(expense.getExpenseAmount());
 
-        //recycler view item click event to show details
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +79,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
                 expenseAmount.setText(expense.getExpenseAmount()+" BDT");
                 expenseDate.setText(expense.getExpenseDate());
 
-                //time empty checking
                 if(expense.getExpenseTime() == null || expense.getExpenseTime().isEmpty()){
                     expenseTime.setText("No Time Added");
                 }else {
@@ -90,13 +88,14 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
                 showDocumentBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         Dialog builder = new Dialog(context);
                         View  view = LayoutInflater.from(context).inflate(R.layout.image_view_layout_design,null);
                         builder.setTitle("Document of "+expense.getExpenseType());
                         builder.setContentView(view);
 
                         ImageView imageView = view.findViewById(R.id.imageViewLayoutDesignId);
-                        //image empty checking
+
                         if(expense.getExpenseImage() == null || expense.getExpenseImage().isEmpty()){
                             imageView.setImageResource(R.drawable.ic_assignment_black_24dp);
                         }else {
@@ -112,11 +111,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
             }
         });
 
-
-
-
-
-        //recycler view more button click action
         viewHolder.moreIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,13 +125,13 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
                         switch (item.getItemId()){
 
                             case R.id.updateOptionId:
-                                //update option click action
+
                                 update(expense);
 
                                 return true;
 
                             case R.id.deleteOptionId:
-                                //delete option click action
+
                                 Cursor cursor = ExpensesFragment.myDBHelper.getData("SELECT id FROM expense");
                                 List<Integer> id = new ArrayList<>();
 
@@ -156,15 +150,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
             }
         });
 
-
-
-
-
     }
-
-
-
-
 
     private void update(Expense expense) {
 
@@ -180,9 +166,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         context.startActivity(intent);
     }
 
-
-
-    //show delete dialog to delete
     private void showDeleteDialog(final int rowId, final int position) {
 
         AlertDialog.Builder deleteDialog = new AlertDialog.Builder(context);
@@ -222,7 +205,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
             return null;
         }
     }
-
 
     @Override
     public int getItemCount() {

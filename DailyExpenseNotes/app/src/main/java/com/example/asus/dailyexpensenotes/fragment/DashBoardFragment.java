@@ -42,14 +42,13 @@ public class DashBoardFragment extends Fragment {
     private String fromDate;
 
     public DashBoardFragment() {
-        // Required empty public constructor
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dash_board, container, false);
 
         init(view);
@@ -58,7 +57,6 @@ public class DashBoardFragment extends Fragment {
 
         getToDate();
 
-        //show total expense based on spinner selected item
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -121,7 +119,6 @@ public class DashBoardFragment extends Fragment {
         return view;
     }
 
-    //set date to fromDate TextView by clicking from date icon
     private void getFromDate() {
 
         fromDateIV.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +152,6 @@ public class DashBoardFragment extends Fragment {
         };
     }
 
-    //set date to toDate TextView by clicking to date icon
     private void getToDate() {
 
         toDateIV.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +192,6 @@ public class DashBoardFragment extends Fragment {
 
     }
 
-    //show data according to date
     private void setDataAccordingToDate(String toDate) {
         String selectedItem = spinner.getSelectedItem().toString();
         Cursor cursor;
@@ -261,7 +256,6 @@ public class DashBoardFragment extends Fragment {
     }
 
 
-    //initialize all components
     private void init(View view) {
 
         myDBHelper = new MyDBHelper(getActivity());

@@ -14,16 +14,13 @@ public class BottomSheetFragment extends Fragment {
 
 
     public BottomSheetFragment() {
-        // Required empty public constructor
-    }
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_bottom_sheet, container, false);
-
         return view;
     }
 

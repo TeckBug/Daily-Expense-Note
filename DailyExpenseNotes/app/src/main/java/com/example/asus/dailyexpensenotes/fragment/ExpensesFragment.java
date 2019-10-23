@@ -53,14 +53,13 @@ public class ExpensesFragment extends Fragment {
     private String fromDate;
 
     public ExpensesFragment() {
-        // Required empty public constructor
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_expenses, container, false);
 
         init(view);
@@ -73,7 +72,6 @@ public class ExpensesFragment extends Fragment {
 
         populateDataToRecyclerView();
 
-        //show expenses based on spinner selected item
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -113,7 +111,6 @@ public class ExpensesFragment extends Fragment {
             }
         });
 
-        //floating action button actions here to add new expense
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +119,6 @@ public class ExpensesFragment extends Fragment {
             }
         });
 
-        //hide fab icon on scroll up
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
@@ -157,7 +153,6 @@ public class ExpensesFragment extends Fragment {
         populateDataToRecyclerView();
     }
 
-    //refresh data after adding
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -170,14 +165,12 @@ public class ExpensesFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    //set all data to recycler view
     public void populateDataToRecyclerView() {
         expenseAdapter = new ExpenseAdapter(expenseList,getActivity());
         expenseAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(expenseAdapter);
     }
 
-    //getDataFromDatabase
     public void getData() {
         expenseList.clear();
         Cursor cursor = myDBHelper.getDataFromDatabase();
@@ -195,7 +188,6 @@ public class ExpensesFragment extends Fragment {
         }
     }
 
-    //set date to fromDate TextView by clicking from date icon
     private void getFromDate() {
 
         fromDateIV.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +221,6 @@ public class ExpensesFragment extends Fragment {
         };
     }
 
-    //set date to toDate TextView by clicking to date icon
     private void getToDate() {
 
             toDateIV.setOnClickListener(new View.OnClickListener() {
@@ -309,7 +300,6 @@ public class ExpensesFragment extends Fragment {
         }
     }
 
-    //initialize all components
     private void init(View view) {
 
         myDBHelper = new MyDBHelper(getActivity());
