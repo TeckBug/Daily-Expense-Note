@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private int mark=0;
     private int mark1=1;
 
-    private BottomNavigationView bottomNavigationView;
+    public BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
