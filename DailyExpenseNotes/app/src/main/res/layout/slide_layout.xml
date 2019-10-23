@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:src="@drawable/group_10"
+        android:id="@+id/centerIV"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content">
+
+    </ImageView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/centerIV"
+        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:text="Add Expense"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:justificationMode="inter_word"
+        android:id="@+id/addExpenseTV"
+        android:layout_gravity="center">
+
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/addExpenseTV"
+        android:text="Description"
+        android:textColor="#cccccc"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:lineSpacingExtra="5sp"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp"
+        android:id="@+id/descriptionTV"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+
+
+
+</RelativeLayout>
